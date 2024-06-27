@@ -1,0 +1,12 @@
+env
+!.gitignore
+**/spcom_config.py
+**/plugged
+**/.cache
+**/__pycache__
+**/undodir
+**/packer_compiled.lua
+lazy-lock.json
+
+
+
