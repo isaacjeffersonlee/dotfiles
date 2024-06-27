@@ -1,0 +1,23 @@
+font=FiraCode 18
+width=600
+height=300
+border-size=2
+default-timeout=2000
+
+[urgency=low]
+background-color=#161821
+text-color=#ffffff
+border-color=#ffffff
+default-timeout=2000
+
+[urgency=normal]
+background-color=#161821
+text-color=#ffffff
+border-color=#ffffff
+default-timeout=2000
+
+[urgency=high]
+background-color=#161821
+text-color=#ffffff
+border-color=#ffffff
+default-timeout=2000

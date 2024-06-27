@@ -1,0 +1,74 @@
+general {
+        colors = true
+        interval = 5
+}
+
+order += "tztime local"
+order += "cpu_temperature 0"
+order += "cpu_usage"
+/* order += "wireless _first_" */
+/* order += "ethernet _first_" */
+order += "memory"
+order += "disk /"
+order += "volume master"
+
+volume master {
+        format = " %volume"
+        format_muted = "VOL muted"
+        device = "default"
+        mixer = "Master"
+        mixer_idx = 0
+}
+
+cpu_usage {
+        format= " %usage"
+        format_above_threshold =  "☢️ %usage"
+        max_threshold = 75
+}
+
+cpu_temperature 0 {
+    format= " %degrees °C"
+    max_threshold = 60
+    format_above_threshold =  " %degrees °C"
+    path = "/sys/devices/platform/coretemp.0/hwmon/hwmon*/temp1_input"
+
+}
+
+wireless _first_ {
+        format_up = "W (%quality at %essid, %bitrate) %ip"
+        format_down = ""
+}
+
+ethernet _first_ {
+        format_up = "E %ip (%speed)"
+        format_down = ""
+}
+
+/* battery all { */
+/*         format = "%status %percentage %remaining %emptytime" */
+/*         format_down = "" */
+/*         status_chr = "CHR" */
+/*         status_bat = "BAT" */
+/*         status_unk = "UNK" */
+/*         status_full = "FULL" */
+/*         path = "/sys/class/power_supply/BAT%d/uevent" */
+/*         low_threshold = 10 */
+/* } */
+
+tztime local {
+        format = " %I:%M %p   %a %d/%m/%Y"
+        align = "center"
+        min_width = "1700"
+}
+
+memory {
+        /* format = "力 %used / %total" */
+        format = "力 %used"
+        threshold_degraded = "10%"
+        format_degraded = "力%free"
+}
+
+disk "/" {
+        /* format = " %used / %total" */
+        format = " %used"
+}

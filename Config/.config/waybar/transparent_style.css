@@ -1,0 +1,332 @@
+* {
+    border: solid;
+    border-radius: 0px;
+    /* `otf-font-awesome` is required to be installed for icons */
+    font-family: FiraCode, Roboto, Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    min-height: 0;
+}
+
+
+
+window#waybar {
+    /* background-color: rgba(43, 48, 59, 0.5); */
+    background-color: transparent;
+    /* border-bottom: 2px solid rgba(100, 114, 125, 0.5); */
+    color: #000000;
+    transition-property: background-color;
+    transition-duration: .5s;
+}
+
+window#waybar.hidden {
+    opacity: 0.2;
+}
+
+/*
+window#waybar.empty {
+    background-color: transparent;
+}
+window#waybar.solo {
+    background-color: #FFFFFF;
+}
+*/
+
+window#waybar.termite {
+    background-color: #3F3F3F;
+}
+
+window#waybar.chromium {
+    background-color: transparent;
+    border: none;
+}
+
+#workspaces button {
+    padding: 0 2px;
+    background-color: transparent;
+    color: #000000;
+    /* Use box-shadow instead of border so the text isn't offset */
+    /* box-shadow: inset 0 -2px transparent; */
+    margin-left: 14px;
+}
+
+/* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
+#workspaces button:hover {
+    background: rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 -2px #000000;
+}
+
+#workspaces button.focused {
+    /* box-shadow: inset 0 -2px #000000; */
+    color: #000000;
+    background: transparent;
+    border-bottom: 2px solid #000000;
+    border-top: 2px solid #000000;
+    border-right: 2px solid #000000;
+    border-left: 2px solid #000000;
+    min-width: 30px;
+    /* border-radius: 20px 20px 20px 20px; */
+}
+
+#workspaces button.urgent {
+    background-color: #88507D;
+}
+
+#mode {
+    background-color: transparent;
+    border-bottom: 2px solid #000000;
+}
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#temperature,
+#backlight,
+#network,
+#pulseaudio,
+#custom-media,
+#custom-storage,
+#custom-vpn,
+#tray,
+#mode,
+#idle_inhibitor,
+#mpd {
+    padding: 0 10px;
+    margin: 0 4px;
+    color: #000000;
+    margin-left: 2px;
+    margin-right: 0;
+}
+
+#window,
+#workspaces {
+    margin: 0 4px;
+}
+
+/* If workspaces is the leftmost module, omit left margin */
+.modules-left > widget:first-child > #workspaces {
+    margin-left: 0;
+}
+
+/* If workspaces is the rightmost module, omit right margin */
+.modules-right > widget:last-child > #workspaces {
+    margin-right: 0;
+}
+
+#clock {
+    background-color: #64727D;
+}
+
+#battery {
+    /* background-color: transparent; */
+    /* color: #000000; */
+    /* border-bottom: 2px solid #000000; */
+    border-bottom: 2px solid #000000;
+    border-top: 2px solid #000000;
+    border-left: 2px solid #000000;
+    /* border-right: 2px solid #000000; */
+    background-color: transparent;
+    color: #000000;
+    margin-right: 0;
+    /* border-radius: 20px 0px 0px 20px; */
+}
+
+#battery.charging {
+    color: #2B747C;
+    background-color: #0d61ac;
+}
+
+@keyframes blink {
+    to {
+        background-color: #000000;
+        color: transparent;
+    }
+}
+
+#battery.critical:not(.charging) {
+    background-color: #94253E;
+    color: #ffffff;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+label:focus {
+    background-color: transparent;
+}
+
+#cpu {
+    border-bottom: 2px solid #000000;
+    border-top: 2px solid #000000;
+    /* border-left: 2px solid #000000; */
+    /* border-right: 2px solid #000000; */
+    background-color: transparent;
+    color: #000000;
+    margin-right: 0;
+    margin-left: 0;
+}
+
+#custom-memory {
+    border-bottom: 2px solid #000000;
+    border-top: 2px solid #000000;
+    /* border-left: 2px solid #000000; */
+    /* border-right: 2px solid #000000; */
+    background-color: transparent;
+    color: #000000
+}
+
+#backlight {
+    border-bottom: 2px solid #000000;
+    border-top: 2px solid #000000;
+    /* border-right: 2px solid #000000; */
+    border-left: 2px solid #000000;
+    background-color: transparent;
+    color: #000000;
+    margin-right: 0;
+    margin-left: 0;
+}
+
+#network {
+    border-bottom: 2px solid #000000;
+    border-top: 2px solid #000000;
+    /* border-left: 2px solid #000000; */
+    /* border-right: 2px solid #000000; */
+    background-color: transparent;
+    margin-left: 0;
+    color: #000000
+}
+
+#network.disconnected {
+    background-color: #88507D;
+}
+
+#pulseaudio {
+    border-bottom: 2px solid #000000;
+    border-top: 2px solid #000000;
+    /* border-left: 2px solid #000000; */
+    border-right: 2px solid #000000;
+    background-color: transparent;
+    color: #000000;
+    /* border-radius: 0px 20px 20px 0px; */
+    margin-left: 0;
+}
+
+#pulseaudio.muted {
+    background-color: transparent;
+    color: #88507D;
+}
+
+#custom-clock {
+    border-bottom: 2px solid #000000;
+    border-top: 2px solid #000000;
+    border-left: 2px solid #000000;
+    border-right: 2px solid #000000;
+    background-color: transparent;
+    color: #000000;
+    min-width: 250px;
+    /* border-radius: 20px 20px 20px 20px; */
+}
+
+#custom-media {
+    min-width: 30px;
+    background-color: transparent;
+    border-bottom: 2px solid #000000;
+    margin-left: 10px;
+    margin-right: 10px;
+    /* border-radius: 20px 20px 20px 20px; */
+}
+
+#custom-media.custom-spotify {
+    background-color: transparent;
+    border-bottom: 2px solid #000000;
+}
+
+#custom-media.custom-vlc {
+    background-color: #ffa000;
+}
+
+#custom-vpn {
+    border-bottom: 2px solid #000000;
+    border-top: 2px solid #000000;
+    /* border-left: 2px solid #000000; */
+    /* border-right: 2px solid #000000; */
+    background-color: transparent;
+    margin-right: 0;
+    margin-left: 0;
+}
+
+#custom-storage {
+    border-bottom: 2px solid #000000;
+    border-top: 2px solid #000000;
+    /* border-left: 2px solid #000000; */
+    /* border-right: 2px solid #000000; */
+    background-color: transparent;
+    margin-right: 0;
+    margin-left: 0;
+}
+
+#temperature {
+    border-bottom: 2px solid #000000;
+    border-top: 2px solid #000000;
+    /* border-left: 2px solid #000000; */
+    /* border-right: 2px solid #000000; */
+    background-color: transparent;
+    margin-right: 0;
+    margin-left: 0;
+}
+
+#temperature.critical {
+    background-color: #88507D;
+    color: #ffffff;
+}
+
+#tray {
+    border-bottom: 2px solid #000000;
+    border-top: 2px solid #000000;
+    /* border-left: 2px solid #000000; */
+    border-right: 2px solid #000000;
+    margin-left: 0;
+    margin-right: 14px;
+}
+
+#idle_inhibitor {
+    border-bottom: 2px solid #000000;
+    border-top: 2px solid #000000;
+    border-left: 2px solid #000000;
+    /* border-right: 2px solid #000000; */
+    background-color: #0d61ac;
+    color: #000000;
+    margin-right: 0;
+}
+
+#idle_inhibitor.activated {
+    background-color: #ecf0f1;
+    color: #000000;
+}
+
+#mpd {
+    background-color: #66cc99;
+    color: #2a5c45;
+}
+
+#mpd.disconnected {
+    background-color: #88507D;
+}
+
+#mpd.stopped {
+    background-color: #90b1b1;
+}
+
+#mpd.paused {
+    background-color: #51a37a;
+}
+
+#language {
+    background: #00b093;
+    color: #740864;
+    padding: 0 5px;
+    margin: 0 5px;
+    min-width: 16px;
+}

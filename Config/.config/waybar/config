@@ -1,0 +1,186 @@
+[
+{
+    "layer": "bottom", // Waybar at bottom layer
+    "output": "HDMI-A-1",
+    /* "position": "bottom", // Waybar position (bottom|bottom|left|right) */
+    "height": 40, // Waybar height (to be removed for auto height)
+    // "width": 1280, // Waybar width
+    // Choose the order of the modules
+    "modules-left": [ "sway/workspaces", "backlight", "pulseaudio", "custom/media"],
+    "modules-center": ["custom/clock", "sway/mode"], 
+    // "modules-right": ["battery", "temperature", "cpu", "custom/memory", "disk", "custom/vpn", "network", "tray"],
+    "modules-right": ["battery", "temperature", "cpu", "custom/memory", "disk", "network", "tray"],
+    "sway/mode": {
+        "format": "<span style=\"italic\">{}</span>"
+    },
+    "mpd": {
+        "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ ",
+        "format-disconnected": "Disconnected ",
+        "format-sbottomped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Sbottomped ",
+        "unknown-tag": "N/A",
+        "interval": 2,
+        "consume-icons": {
+            "on": " "
+        },
+        "random-icons": {
+            "off": "<span color=\"#f53c3c\"></span> ",
+            "on": " "
+        },
+        "repeat-icons": {
+            "on": " "
+        },
+        "single-icons": {
+            "on": "1 "
+        },
+        "state-icons": {
+            "paused": "",
+            "playing": ""
+        },
+        "tooltip-format": "MPD (connected)",
+        "tooltip-format-disconnected": "MPD (disconnected)"
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            /* "activated": "", */
+            "activated": "IDLE OFF",
+            /* "deactivated": "" */
+            "deactivated": "IDLE ON"
+        }
+    },
+    "tray": {
+        // "icon-size": 21,
+        "spacing": 10
+    },
+    "clock": {
+        "format-alt": "{:%Y-%m-%d}"
+    },
+    "cpu": {
+        "format": "{usage}% ",
+        /* "format": "{usage}% CPU", */
+        "tooltip": false
+    },
+    "memory": {
+        /* "format": "{}% " */
+        "format": "{used:0.1f} GiB"
+    },
+    "temperature": {
+        // "thermal-zone": 2,
+        "hwmon-path": "/sys/class/hwmon/hwmon5/temp1_input",
+        "critical-threshold": 80,
+        // "format-critical": "{temperatureC}°C {icon}",
+        "format": "{temperatureC}°C {icon}",
+        "format-icons": ["❅", "", "!"]
+    },
+
+    "backlight": {
+        "format": "{percent}% {icon}",
+        "format-icons": ["⊝", "", ""]
+    },
+    "battery": {
+        "bat": "CMB0",
+        "states": {
+            // "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{capacity}% {icon} ",
+        "format-charging": "{capacity}% ⏻",
+        "format-plugged": "{capacity}% ⏻",
+        "format-alt": "{time} {icon}",
+        // "format-good": "", // An empty format will hide the module
+        /* "format-full": "", */
+        "format-icons": ["", "", "", "", ""]
+    },
+    "battery#bat2": {
+        "bat": "BAT2"
+    },
+    "network": {
+        // "interface": "wlp2*", // (Optional) To force the use of this interface
+        "format-wifi": "{essid} ({signalStrength}%) ",
+        "format-ethernet": "Ethernet ",
+        "format-linked": "{ifname} (No IP) ",
+        "format-disconnected": "Disconnected ⚠",
+        "tooltip-format": "{ifname}: {ipaddr}/{cidr}",
+        "on-click": "kitty --detach nmtui"
+    },
+    "pulseaudio": {
+        "format": "{volume}% {icon} {format_source}",
+        "format-bluetooth": "{volume}%   {format_source}",
+        "format-bluetooth-muted": "MUTED  {format_source}",
+        "format-muted": "0% 🔇 {format_source}",
+        "format-source": "{volume}% ",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "on-click": "pavucontrol"
+    },
+    /* "custom/media": { */
+    /*     "format": "{icon} {}", */
+    /*     "return-type": "json", */
+    /*     "max-length": 40, */
+    /*     "format-icons": { */
+    /*         "spotify": "", */
+    /*         "default": "🎜" */
+    /*     }, */
+    /*     "escape": true, */
+    /*     "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder */
+    /*     // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name */
+
+
+  "custom/media": {
+    "max-length": 70,
+    "exec": "playerctl metadata --format '{{title}} - {{artist}}'",
+    "on-click": "playerctl play-pause",
+    "interval" : 5,
+  },
+
+    "custom/vpn": {
+        "exec": "./.scripts/vpn_status.sh",
+        "signal":1,
+        "on-click": "./.scripts/vpn_toggle.sh; pkill -x -RTMIN+1 waybar",
+        "return-type": "json",
+        "exec-on-event": true,
+        "tooltip-format": "curl ifconfig.me",
+        "interval": 20,
+    },
+
+   "custom/clock": {
+        "exec": "echo $(date +'%a %d/%m/%Y %H:%M') \"$(calcurse -n | tail -1)\"",
+        "on-click": "kitty --class 'floating_kitty' --detach calcurse",
+        "on-click-right": "firefox https://outlook.office.com/calendar/view/month/",
+        "interval": 1
+    },
+
+    "disk": {
+        "interval": 30,
+        "format": "  {used} ≤ {total}  ",
+        "path": "/"
+    },
+    "custom/alsa": {
+        "exec": "if echo \"$(amixer get Master)\" | grep -q '\\[on\\]'; then echo \"$(amixer get Master | awk -F'[][]' 'END{ print $2 }') \"; else echo '[off] 🔇'; fi",
+        "on-click": "amixer set Master toggle; pkill -x -RTMIN+11 waybar",
+        "on-scroll-up": "amixer set Master 1+; pkill -x -RTMIN+11 waybar",
+        "on-scroll-down": "amixer set Master 1-; pkill -x -RTMIN+11 waybar",
+        "signal": 11,
+        "interval": 10,
+        "tooltip": false
+    },
+    "custom/memory": {
+        "exec": "echo $(free -h | awk '/Mem/{print $3}') ",
+        "interval": 10,
+        "tooltip": false
+    },
+    "custom/right_arrow": {
+        "exec": "echo '\uE0B0'",
+        "interval": 100
+        }
+},
+]

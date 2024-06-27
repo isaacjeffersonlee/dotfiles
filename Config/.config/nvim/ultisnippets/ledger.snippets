@@ -1,0 +1,134 @@
+# snippet t "new transaction"
+# `date +%Y/%m/%d` * $1 
+# 	$2                   $4 GBP
+# 	$3                  -$4 GBP
+# endsnippet
+
+# priority -50
+
+snippet t "Transaction" b
+`!v strftime("%Y")`-${1:`!v strftime("%m")`}-${2:`!v strftime("%d")`} ! $0 
+endsnippet
+
+snippet $ "Dollar to Pound" iA
+£$0
+endsnippet
+
+snippet es "Expenses:Spending" b
+Expenses:Spending:$1    $2 GBP
+$0
+endsnippet
+
+snippet esf "Expenses:Spending:Food" b
+Expenses:Spending:Food    $1 GBP
+$0
+endsnippet
+
+snippet est "Expenses:Spending:Travel" b
+Expenses:Spending:Travel    $1 GBP
+$0
+endsnippet
+
+snippet as "Assets:Santander:Spending" b
+Assets:Santander:Spending $0
+endsnippet
+
+snippet aS "Assets:SantanStudent" b
+Assets:SantanStudent
+endsnippet
+
+snippet travel "Travel Transaction" b
+`!v strftime("%Y")`-${1:`!v strftime("%m")`}-${2:`!v strftime("%d")`} ! ${3:Tfl Travel Bus}
+    Expenses:Spending:Travel    ${3:3.10} GBP
+    Assets:SantanSpending
+
+$0
+endsnippet
+
+snippet spending "Weekly Spending" b
+`!v strftime("%Y")`-${1:`!v strftime("%m")`}-${2:`!v strftime("%d")`} * Weekly Spending + Groceries
+    Assets:SantanSpending                                90.00 GBP
+    Assets:SantanStudent
+$0
+endsnippet
+
+snippet asda "Weekly Shopping" b
+`!v strftime("%Y")`-${1:`!v strftime("%m")`}-${2:`!v strftime("%d")`} ! ASDA Groceries
+    ; Online order.
+    Expenses:Groceries      $3 GBP
+    Assets:SantanSpending
+$0
+endsnippet
+
+snippet union "Union bar transaction" b
+`!v strftime("%Y")`-${1:`!v strftime("%m")`}-${2:`!v strftime("%d")`} ! Union
+    ; $3
+    Expenses:Spending:${4:Food}                                $5 GBP
+    Assets:SantanSpending
+$0
+endsnippet
+
+snippet byrons "Byron Burgers" b
+`!v strftime("%Y")`-${1:`!v strftime("%m")`}-${2:`!v strftime("%d")`} ! Byrons
+    ; $3
+    Expenses:Spending:Food                               ${4:10.45} GBP
+    Assets:SantanSpending
+$0
+endsnippet
+
+snippet bayleyandsage "Bayley & Sage" b
+`!v strftime("%Y")`-${1:`!v strftime("%m")`}-${2:`!v strftime("%d")`} ! Bayley & Sage
+	; $3
+	Expenses:Spending:Food  ${4:4.95} GBP
+	Assets:SantanSpending
+$0
+endsnippet
+
+snippet rentandutilites "Rent and Utilites" b
+`!v strftime("%Y")`-${1:`!v strftime("%m")`}-${2:`!v strftime("%d")`} * Rent and Utilities
+    Expenses:Utilities:Broadband                        (22.00 GBP / 5) ; Now Broadband
+    Expenses:Utilities:GasAndElectric                  (138.57 GBP / 5) ; Eon Energy
+    Expenses:Rent                                       607.00 GBP ; Rent
+    Expenses:AccomodationFund  ; Fund for shared accommodation purchases
+    Assets:SantanStudent                               -639.11 GBP
+$0
+endsnippet
+
+snippet mondayfootball "Monday Football" b
+`!v strftime("%Y")`-$1-$2 * Monday Football Monzo Transfer
+    Assets:Monzo                                          $3 GBP
+    Assets:SantanStudent
+
+`!v strftime("%Y")`-$1-$2 * Monday Football
+    Expenses:Spending:Societies                           $3 GBP
+    Assets:Monzo
+
+$0
+endsnippet 
+
+snippet topup "Weekly Spending Topup" b
+`!v strftime("%Y")`-${1:`!v strftime("%m")`}-${2:`!v strftime("%d")`} * Weekly Spending Topup
+    Assets:SantanSpending                                ${3: 20.00} GBP
+    Assets:SantanStudent
+$0
+endsnippet
+
+snippet bursary "Uni Bursary" b
+`!v strftime("%Y")`-${1:`!v strftime("%m")`}-${2:`!v strftime("%d")`} * Uni Bursary
+    Assets:SantanStudent                                333.34 GBP
+    Income:Uni:Bursary  
+endsnippet
+
+snippet mensa "Mensa Food" b
+`!v strftime("%Y")`-${1:`!v strftime("%m")`}-${2:`!v strftime("%d")`} * SV (Schweiz) AG, 27960
+    ; Mensa food
+    Expenses:Budget:Food:ETH                                  $3 GBP
+    Assets:Santander:Spending
+$0
+endsnippet
+
+snippet aldi "Aldi shop" b
+`!v strftime("%Y")`-${1:`!v strftime("%m")`}-${2:`!v strftime("%d")`} * ALDI SUISSE
+    Expenses:Budget:Groceries                            $3 GBP
+    Assets:Santander:Spending 
+endsnippet

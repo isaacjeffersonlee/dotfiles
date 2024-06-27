@@ -1,0 +1,9 @@
+set sandbox none
+set recolor false
+set recolor-darkcolor "#ffffff"
+set recolor-lightcolor "#161821"
+set default-bg "#161821"
+set highlight-color "#c4c7c7"
+set highlight-active-color "#df7353"
+set window-title-basename "true"
+set selection-clipboard "clipboard"

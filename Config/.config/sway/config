@@ -1,0 +1,361 @@
+# man 5 sway for config options
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+##################################### Variables ##############################
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+font pango:OpenSans 10
+
+# Logo key. Use Mod1 for Alt.
+set $mod Mod4
+# Home row direction keys, like vim
+set $left h
+set $down j
+set $up k
+set $right l
+# Your preferred terminal emulator
+# set $term alacritty
+set $term kitty
+set $float_term alacritty
+set $browser firefox
+set $spotify flatpak run com.spotify.Client
+# set $menu rofi -show drun -show-icons
+set $menu bemenu-run
+set $email flatpak run org.mozilla.Thunderbird
+include /etc/sway/config-vars.d/*
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+##################################### Outputs ##############################
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+# You can get the names of your outputs by running: swaymsg -t get_outputs
+# Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
+#output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+set $wallpaper ~/Pictures/wallpaper.jpg
+# output eDP-1 bg $wallpaper fill
+
+output eDP-1 disable
+# output eDP-1 scale 1.2
+# output eDP-1 bg "#161821" solid_color
+
+# output * bg $wallpaper fill
+output * bg "#161821" solid_color
+# output DP* bg "#142c35" solid_color
+# output HDMI* bg "#142c35" solid_color
+
+# output eDP-1 mode --custom 1920x1200
+# To check for outputs run swaymsg -t get_outputs
+# output DP-2 transform 270 resolution 1920x1080 position 0,0
+# output DP-1 transform 270 resolution 1920x1080 position 0,0
+# output HDMI-A-1 transform 270 resolution 1920x1080 position 0,0
+output HDMI-A-1 position 0,0
+output HDMI-A-1 bg $wallpaper fill
+
+# workspace 1 output HDMI-A-1 DP-2 DP-1 eDP-1
+workspace 2 output HDMI-A-1
+# workspace 2 output HDMI-A-1 DP-2 DP-1 eDP-1
+# workspace 3 output eDP-1
+# workspace 1 output eDP-1
+
+### Idle configuration
+# Example configuration:
+#
+# exec swayidle -w \
+#          timeout 300 'swaylock -f -c 000000' \
+#          timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+#          before-sleep 'swaylock -f -c 000000'
+#
+# This will lock your screen after 300 seconds of inactivity, then turn off
+# your displays after another 300 seconds, and turn your screens back on when
+# resumed. It will also lock your screen before your computer goes to sleep.
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+##################################### Themes ##############################
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+set $main_color #D3D3D3 
+set {
+	$pink        #FC9EDF
+	$cyan		 #89b8c2
+	$magenta	 #364f6b
+	$orange		 #DF7353
+	$silver		 #696969
+	$dark      	 #18181E
+	$transparent #FF000000
+}
+
+#                         border   backgrnd text    indic    chld
+client.focused        	 	$main_color	   $cyan    $dark   $main_color   $main_color
+client.unfocused        	$dark	   $dark    $cyan   $dark    $silver
+client.focused_inactive 	$dark    $dark    $cyan   $dark    $dark
+client.urgent	          	$magenta $magenta $dark   $magenta $magenta
+client.placeholder	      $dark    $dark    $main_color  $main_color   $dark
+
+default_border pixel 3
+smart_gaps off
+gaps inner 12
+gaps outer 2
+hide_edge_borders none
+
+#------------------------- Opacity -------------------------------------------
+set $opacity 1.0
+for_window [class=".*"] opacity $opacity
+for_window [app_id=".*"] opacity $opacity
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+##################################### Inputs ##############################
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+focus_follows_mouse yes
+focus_on_window_activation focus
+input "1133:49298:Logitech_G203_LIGHTSYNC_Gaming_Mouse" {
+    accel_profile "flat"
+}
+input "type:keyboard" {
+    xkb_options caps:escape
+}
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+##################################### Keybinds ##############################
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#----------------------- Multimedia ------------------------------------------
+# Pulseaudio
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+# Alsa
+# bindsym --locked XF86AudioLowerVolume exec amixer set Master 5%- && pkill -x -RTMIN+11 waybar
+# bindsym --locked XF86AudioRaiseVolume exec amixer set Master 5%+ && pkill -x -RTMIN+11 waybar
+# bindsym XF86AudioMute exec amixer set Master toggle; pkill -x -RTMIN+11 waybar
+# Note: needed to run this command first: sudo chmod u+s /usr/bin/brightnessctl
+bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
+bindsym XF86MonBrightnessUp exec brightnessctl set +5%
+# bindsym XF86AudioPlay exec playerctl play-pause
+
+bindsym $mod+space exec dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause
+# bindsym $mod+space exec dbus-send --print-reply --dest=org.mpris.MediaPlayer2.ncspot /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause
+# bindsym $mod+space exec playerctl play-pause
+# bindsym XF86AudioNext exec playerctl next
+# bindsym $mod+period exec dbus-send --print-reply --dest=org.mpris.MediaPlayer2.ncspot /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next
+bindsym $mod+period exec dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next
+# bindsym $mod+period exec playerctl next
+# bindsym XF86AudioPrev exec playerctl previous
+# bindsym $mod+comma exec playerctl previous
+bindsym $mod+comma exec dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous
+# bindsym $mod+comma exec dbus-send --print-reply --dest=org.mpris.MediaPlayer2.ncspot /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous
+#----------------------- Brightness ------------------------------------------
+# Note: Must install brightnessctl and then make sure it is user
+# executable by running sudo chmod u+s /usr/bin/brightnessctl
+# bindsym --locked XF86MonBrightnessUp exec brightnessctl s +5% 
+# bindsym --locked XF86MonBrightnessDown exec brightnessctl s 5%-
+#----------------------- Common Applications ---------------------------------
+# Launch terminal and focus workspace 1 (My terminal workspace).
+# bindsym $mod+Return exec $term, workspace 1
+bindsym $mod+Return exec $term
+# Launch agenda file with nvim with large font and focus workspace 1
+# bindsym $mod+a exec kitty --class "floating_kitty" alsamixer
+bindsym $mod+p exec kitty --class "floating_kitty" pulsemixer
+# bindsym $mod+g exec kitty --class "floating_kitty" gotop
+bindsym $mod+w exec kitty nmtui  
+bindsym $mod+Shift+Return exec kitty --class "floating_kitty"
+bindsym $mod+c exec $browser, workspace 2
+# bindsym $mod+v exec codium
+bindsym $mod+o exec flatpak run md.obsidian.Obsidian
+# bindsym $mod+f exec firefox, workspace 2
+# bindsym $mod+Shift+m exec ./.scripts/dmenu_maps.sh, workspace 2
+bindsym $mod+a exec ./Projects/Spadd/spadd/spadd_run.py
+bindsym $mod+r exec kitty ranger
+bindsym $mod+m exec $spotify
+# bindsym $mod+w exec echo "Isaac Lee\nNithil Kennedy\nOsaruese Egharevba" | bemenu | wl-copy
+# From flatpak
+# bindsym $mod+m exec flatpak run com.spotify.Client
+bindsym $mod+t exec $email
+# bindsym $mod+e exec emacsclient -c, workspace 4
+bindsym $mod+Shift+w exec killall -SIGUSR1 waybar
+# Full page screenshots
+bindsym Print exec grim ~/Pictures/Screenshots/screenshot-$(date +"%Y-%m-%d-%H-%m-%s").png
+# Rectangular Region Screenshots
+bindsym $mod+s exec slurp | grim -g - ~/Pictures/Screenshots/screenshot-$(date +"%Y-%m-%d-%H-%M-%S").png 
+# Copy screenshot to stdout
+bindsym $mod+Ctrl+s exec slurp | grim -g - - | wl-copy
+
+#----------------------- Window Management -----------------------------------
+# Kill focused window
+bindsym $mod+q kill
+bindsym $mod+d exec $menu
+# Drag floating windows by holding down $mod and left mouse button.
+# Resize them with right mouse button + $mod.
+# Despite the name, also works for non-floating windows.
+# Change normal to inverse to use left mouse button for resizing and right
+# mouse button for dragging.
+floating_modifier $mod normal
+# Reload the configuration file
+bindsym $mod+Shift+r reload
+# Moving around:
+# Move your focus around
+bindsym $mod+$left focus left
+bindsym $mod+$right focus right
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+# Move the focused window with the same, but add Shift
+bindsym $mod+Shift+$left move container to output left, focus output left
+bindsym $mod+Shift+$right move container to output right, focus output right
+# Switch to workspace
+#
+bindsym $mod+Ctrl+$right workspace next
+bindsym $mod+Ctrl+$left workspace prev
+bindsym $mod+Ctrl+$up output next
+bindsym $mod+Ctrl+$down output prev
+# Move to the next or previous workspace:
+# bindsym $mod+n workspace next_on_output --create
+# bindsym $mod+Prior workspace prev_on_output --create
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
+# Move focused container to workspace and focus it
+bindsym $mod+Shift+1 move container to workspace number 1, workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2, workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3, workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4, workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5, workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6, workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7, workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8, workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9, workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10, workspace number 10
+# Focus previous workspace
+bindsym $mod+Tab workspace back_and_forth
+# Using autotiling instead
+# bindsym $mod+v splitv
+# Switch the current container between different layout styles
+bindsym $mod+Ctrl+q layout stacking
+bindsym $mod+Ctrl+w layout tabbed
+bindsym $mod+Ctrl+e layout toggle split
+# Make the current focus fullscreen
+bindsym $mod+f fullscreen
+# Toggle the current focus between tiling and floating mode
+bindsym $mod+Shift+t floating toggle
+# Swap focus between the tiling area and the floating area
+bindsym $mod+Shift+space focus mode_toggle
+# Move focus to the parent container
+# Works a bit like visual selection if hit multiple times
+# Allows multiple windows to be selected
+# bindsym $mod+v focus parent
+# Scratchpad:
+# Sway has a "scratchpad", which is a bag of holding for windows.
+# You can send windows there and get them back later.
+# Move the currently focused window to the scratchpad
+# bindsym $mod+Shift+x move scratchpad
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+# bindsym $mod+x scratchpad show
+bindsym $mod+n exec ./dotfiles/Scripts/.scripts/notes.sh
+bindsym $mod+x exec ./dotfiles/Scripts/.scripts/bkill.sh
+mode "resize" {
+    # left will shrink the containers width
+    # right will grow the containers width
+    # up will shrink the containers height
+    # down will grow the containers height
+    bindsym $right resize shrink width 40px
+    bindsym $up resize grow height 40px
+    bindsym $down resize shrink height 40px
+    bindsym $left resize grow width 40px
+    # Ditto, with arrow keys
+    bindsym Left resize shrink width 10px
+    bindsym Down resize grow height 10px
+    bindsym Up resize shrink height 10px
+    bindsym Right resize grow width 10px
+    # Return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+Ctrl+r mode "resize"
+
+# Reset All Monitors to their (n)ormal (or default) orientation
+# Useful for hotplugging
+bindsym $mod+Shift+n exec ./dotfiles/Scripts/.scripts/reset_monitors.sh  
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+##################################### Status Bar #############################
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+# Read `man 5 sway-bar` for more information about this section.
+bar {
+    position top
+    swaybar_command waybar
+}
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+##################################### Exit Modes #############################
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+# set $mode_system (l) logout, (s) suspend, (r) reboot, (S) shutdown, (R) UEFI
+set $mode_system (r) reboot, (S) shutdown, (l) logout, (R) UEFI
+mode "$mode_system" {
+    # bindsym l exec $lock, mode "default"
+    bindsym l exit
+    # Systemd Linux
+    bindsym s exec suspend, mode "default"
+    bindsym r exec systemctl reboot, mode "default"
+    bindsym Shift+s exec systemctl poweroff, mode "default"
+    bindsym Shift+r exec systemctl reboot --firmware-setup, mode "default"
+    # Void Linux
+    # bindsym r exec loginctl reboot, mode "default"
+    # bindsym Shift+s exec loginctl poweroff, mode "default"
+    # bindsym Shift+r exec loginctl reboot --firmware-setup, mode "default"
+    # return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+Shift+e mode "$mode_system"
+# bindsym $mod+Shift+e exec ./.scripts/shutdown.sh
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+######################### Startup Applications ###############################
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+# exec ./dotfiles/Scripts/.scripts/xdp.sh
+# Start Polkit client
+# exec_always /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
+# exec_always dunst
+exec_always ./.local/bin/autotiling 
+exec_always nm-applet --indicator 
+exec_always mako
+# exec_always kanshi
+
+# Window Workspace Rules
+assign [app_id="firefox"] workspace 2
+assign [class="Chromium"] workspace 2
+assign [app_id="thunderbird"] workspace 4
+# assign [app_id="org.pwmt.zathura"] workspace 5
+# Make the browser workspace always on my second monitor
+
+# Anchor kitty to workspace 1
+# assign [app_id="anchored_kitty"] workspace 1
+
+# for_window [app_id="blueman-manager"] floating enable, resize set 700 400, move position center
+# for_window [app_id="pavucontrol"] floating enable
+# for_window [app_id="gnome-control-center"] floating enable
+# for_window [app_id="gnome-calendar"] floating enable
+# for_window [app_id="gnome-calculator"] floating enable
+# for_window [app_id="com.cisco.secureclient.gui"] floating enable
+# for_window [app_id="Alacritty"] floating enable
+for_window [app_id="floating_kitty"] floating enable, resize set 960 780, move position center
+for_window [app_id="nemo"] floating enable, resize set 960 780, move position center
+for_window [app_id="xdg-desktop-portal-gtk"] floating enable, resize set 960 780, move position center
+for_window [app_id="dolphin"] floating enable, resize set 960 780, move position center
+for_window [app_id="thunar"] floating enable, move position center
+# Spotify doesnt seem to want to work
+assign [class="anchored_kitty"] workspace 1
+assign [app_id="firefox"] workspace 2
+assign [class="Spotify"] workspace 3
+assign [class="thunderbird-default"] workspace 4
+#
+# exec chromium-browser
+exec kitty --class "anchored_kitty"
+exec firefox
+# exec $email
+# exec $spotify
+# workspace 3, exec spotify-launcher
+
+# Includes
+include /etc/sway/config.d/*
+
+
+
+# EOF
