@@ -6,7 +6,7 @@ export LC_ALL=C.UTF-8
 #-----------------------------------------------------------------------------
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>> ALIAS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 #-----------------------------------------------------------------------------
-alias q="QHOME=~/q rlwrap -a -r ~/q/l64/q"
+alias q="rlwrap -a -r ~/q/l64/q"
 alias dev="distrobox enter --root dev"
 alias tex="distrobox enter --root latex-arch"
 alias record="simplescreenrecorder"

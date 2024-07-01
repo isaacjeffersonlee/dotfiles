@@ -11,6 +11,7 @@ export CALCURSE_EDITOR=$EDITOR
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
+export QHOME="$HOME/q"
 # Arch
 # export FZF_DEFAULT_COMMAND='fd -t f -H'
 # Debian
